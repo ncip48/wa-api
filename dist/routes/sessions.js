@@ -36,6 +36,7 @@ router.get('/', controller.list);
 router.get('/:sessionId', session_validator_1.default, controller.find);
 router.get('/:sessionId/status', session_validator_1.default, controller.status);
 router.post('/add', (0, express_validator_1.body)('sessionId').isString().notEmpty(), request_validator_1.default, controller.add);
+router.post('/generate', controller.generate);
 router.get('/:sessionId/add-sse', controller.addSSE);
 router.delete('/:sessionId', session_validator_1.default, controller.del);
 exports.default = router;

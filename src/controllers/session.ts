@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import type { RequestHandler } from 'express';
 import {
   createSession,
@@ -22,6 +23,15 @@ export const status: RequestHandler = (req, res) => {
 
 export const add: RequestHandler = async (req, res) => {
   const { sessionId, readIncomingMessages, ...socketConfig } = req.body;
+
+  if (sessionExists(sessionId)) return res.status(400).json({ error: 'Session already exists' });
+  createSession({ sessionId, res, readIncomingMessages, socketConfig });
+};
+
+export const generate: RequestHandler = async (req, res) => {
+  const { readIncomingMessages, ...socketConfig } = req.body;
+
+  const sessionId = randomUUID();
 
   if (sessionExists(sessionId)) return res.status(400).json({ error: 'Session already exists' });
   createSession({ sessionId, res, readIncomingMessages, socketConfig });

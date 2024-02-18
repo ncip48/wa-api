@@ -74,13 +74,13 @@ export const send_text: RequestHandler = async (req, res) => {
     const result = await session.sendMessage(jid, message, options);
     console.log(result);
     if (result?.status === 1) {
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: 'Message sent successfully',
         error: null,
       });
     } else {
-      res.status(501).json({
+      return res.status(501).json({
         success: false,
         message: 'Message not sent',
         error: result,
@@ -89,7 +89,11 @@ export const send_text: RequestHandler = async (req, res) => {
   } catch (e) {
     const message = 'An error occured during message send';
     logger.error(e, message);
-    res.status(500).json({ error: message });
+    return res.status(500).json({
+      success: false,
+      message: 'Message not sent',
+      error: message,
+    });
   }
 };
 

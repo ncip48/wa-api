@@ -117,7 +117,7 @@ async function createSession(options) {
             if (res && !res.headersSent) {
                 try {
                     const qr = await (0, qrcode_1.toDataURL)(connectionState.qr);
-                    res.status(200).json({ qr });
+                    res.status(200).json({ key: sessionId, qr });
                     return;
                 }
                 catch (e) {

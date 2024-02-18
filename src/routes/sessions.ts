@@ -9,6 +9,7 @@ router.get('/', controller.list);
 router.get('/:sessionId', sessionValidator, controller.find);
 router.get('/:sessionId/status', sessionValidator, controller.status);
 router.post('/add', body('sessionId').isString().notEmpty(), requestValidator, controller.add);
+router.post('/generate', controller.generate);
 router.get('/:sessionId/add-sse', controller.addSSE);
 router.delete('/:sessionId', sessionValidator, controller.del);
 

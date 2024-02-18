@@ -11,7 +11,8 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.addSSE = exports.add = exports.status = exports.find = exports.list = void 0;
+exports.del = exports.addSSE = exports.generate = exports.add = exports.status = exports.find = exports.list = void 0;
+const crypto_1 = require("crypto");
 const wa_1 = require("../wa");
 const list = (req, res) => {
     res.status(200).json((0, wa_1.listSessions)());
@@ -31,6 +32,14 @@ const add = async (req, res) => {
     (0, wa_1.createSession)({ sessionId, res, readIncomingMessages, socketConfig });
 };
 exports.add = add;
+const generate = async (req, res) => {
+    const _a = req.body, { readIncomingMessages } = _a, socketConfig = __rest(_a, ["readIncomingMessages"]);
+    const sessionId = (0, crypto_1.randomUUID)();
+    if ((0, wa_1.sessionExists)(sessionId))
+        return res.status(400).json({ error: 'Session already exists' });
+    (0, wa_1.createSession)({ sessionId, res, readIncomingMessages, socketConfig });
+};
+exports.generate = generate;
 const addSSE = async (req, res) => {
     const { sessionId } = req.params;
     res.writeHead(200, {

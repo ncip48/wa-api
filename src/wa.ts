@@ -108,7 +108,7 @@ export async function createSession(options: createSessionOptions) {
       if (res && !res.headersSent) {
         try {
           const qr = await toDataURL(connectionState.qr);
-          res.status(200).json({ qr });
+          res.status(200).json({ key: sessionId, qr });
           return;
         } catch (e) {
           logger.error(e, 'An error occured during QR generation');
